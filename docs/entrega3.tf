@@ -13,6 +13,7 @@ resource "docker_container" "jenkins_docker" {
   privileged   = true
   networks_advanced {
     name = "jenkins"
+    aliases = ["docker"]
   }
   env = [
     "DOCKER_TLS_CERTDIR=/certs",
@@ -32,6 +33,8 @@ resource "docker_container" "jenkins_docker" {
     host_path      = "/home/josenr/VS/jenkis_practica/jenkins-data"
     read_only      = false
   }
+
+  
 }
 
 resource "docker_container" "jenkins_blueocean" {
