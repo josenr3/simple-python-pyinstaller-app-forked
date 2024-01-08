@@ -6,6 +6,7 @@ terraform {
     }
   }
 }
+
 provider "docker" {}
 resource "docker_container" "jenkins_docker" {
   name         = "jenkins-docker"
