@@ -129,6 +129,7 @@ Aquí se declara el proveedor de Docker que se utilizará para gestionar los rec
 	  privileged   = true
 	  networks_advanced {
 	    name = "jenkins"
+	    aliases = ["docker"]
 	  }
 	  env = [
 	    "DOCKER_TLS_CERTDIR=/certs",
@@ -153,6 +154,8 @@ Aquí se declara el proveedor de Docker que se utilizará para gestionar los rec
 	}
 	
 En este fragmento configuramos el contenedor de docker in docker con la imagen de docker:dind, indicando tambien que se usará la red jenkins que tenía creada, seguidamente establecemos la variable de entorno para configurar el contenedor docker para que utilice un directorio específico para los certificados TLS, indicamos los puertos predeterminados seguidamente, e indicamos los volumenes a utilizar por parte del contenedor, aquí tuve algun problema con el host_path porque no lo entendía del todo moví la ubicación de los volumenes y lo indiqué y creo que funcionó correctamente y el comando especifica el uso de controlador de almacenamiento overlay2 que es responsable de cómo se almacena y gestiona los datos dentro del contenedor docker esta instrucción me dió algunos problemas además de que tuve que buscar su funcionalidad para comprenderlo mejor, basicamente gana en eficiencia y rendimiento.
+
+ACTUALIZACIÓN: Al añadir aliases = ["docker"] ya funciona correctamentente debido a que se le permite a jenkis conectarse al contenedor de docker a través de este alias.
 
 	resource "docker_container" "jenkins_blueocean" {
 	  name         = "jenkins-blueocean"
@@ -202,7 +205,7 @@ Para ejecutar este archivo lanzó los comandos 'terraform fmt' para la actualiza
  
  En la configuración de jenkins segí el tutorial.
  
- Ejecutando 'docker logs jenkins-blueocean' conseguí el token de acceso, seguidamente me cree mi cuenta con user y password, creé el pipeline con la url del repositorio forkeado indicando la rama que se usará que es la main primero indicando la definicion que serie tipo Pipeline script from SCM indicando que se tratá de GIT y luego el script que en mi caso he tenido problemas que explicaré en el video, pero básicamente es copiar el del tutorial:
+ Ejecutando 'docker logs jenkins-blueocean' conseguí el token de acceso, seguidamente me cree mi cuenta con user y password, creé el pipeline con la url del repositorio forkeado indicando la rama que se usará que es la main primero indicando la definicion que serie tipo Pipeline script from SCM indicando que se tratá de GIT y luego el script, pero básicamente es copiar el del tutorial:
  
  	pipeline {
 	    agent none
