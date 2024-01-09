@@ -44,6 +44,7 @@ Seguidamente cree el archivo de terraform para desplegar los contenedores de la 
 	  privileged   = true
 	  networks_advanced {
 	    name = "jenkins"
+	    aliases = ["docker"]
 	  }
 	  env = [
 	    "DOCKER_TLS_CERTDIR=/certs",
